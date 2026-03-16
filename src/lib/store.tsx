@@ -4,6 +4,7 @@ import React, { createContext, useContext, useEffect, useState, useCallback } fr
 import { Employee, Task, RoleType, OwnerType } from './types';
 import { roleTemplates } from './templates';
 import { generateId, createTasksFromTemplate, getEmployeeStatus } from './utils';
+import { seedEmployees } from './seedData';
 
 interface StoreContextType {
   employees: Employee[];
@@ -24,15 +25,25 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load from localStorage on mount
+  // Load from localStorage on mount, or use seed data if empty
   useEffect(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
-        setEmployees(JSON.parse(stored));
+        const parsed = JSON.parse(stored);
+        if (parsed.length > 0) {
+          setEmployees(parsed);
+        } else {
+          // Use seed data if localStorage is empty
+          setEmployees(seedEmployees);
+        }
+      } else {
+        // Use seed data on first load
+        setEmployees(seedEmployees);
       }
     } catch (error) {
       console.error('Error loading from localStorage:', error);
+      setEmployees(seedEmployees);
     }
     setIsLoading(false);
   }, []);

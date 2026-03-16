@@ -33,6 +33,16 @@ export default function Navigation() {
               Dashboard
             </Link>
             <Link
+              href="/how-to-use"
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                pathname === '/how-to-use'
+                  ? 'bg-teal-50 text-teal-700'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+              }`}
+            >
+              How to Use
+            </Link>
+            <Link
               href="/add"
               className="px-4 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700 transition-colors"
             >
